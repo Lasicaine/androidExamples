@@ -1,2 +1,2 @@
 # androidLearning
-Android examples (other origins)
+Android examples
