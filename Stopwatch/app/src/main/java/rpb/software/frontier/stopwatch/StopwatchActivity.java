@@ -62,6 +62,7 @@ public class StopwatchActivity extends Activity {
         seconds = 0;
     }
 
+    //Logic of timer
     private void runTimer() {
         final TextView timeView = (TextView)findViewById(R.id.time_view);
         final Handler handler = new Handler();
