@@ -6,4 +6,5 @@
         <item>Food</item>
         <item>Stores</item>
     </string-array>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
