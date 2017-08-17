@@ -45,7 +45,7 @@ public class BlankFragment extends Fragment {
 
 
         ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             arrayList.add(title+" Items " + i);//Adding items to recycler view
         }
         RecyclerView_Adapter adapter = new RecyclerView_Adapter(getActivity(), arrayList);
