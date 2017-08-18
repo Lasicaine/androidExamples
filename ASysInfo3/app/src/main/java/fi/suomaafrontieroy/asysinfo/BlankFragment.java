@@ -40,13 +40,14 @@ public class BlankFragment extends Fragment {
         recyclerView = (RecyclerView) view
                 .findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView
-                .setLayoutManager(new LinearLayoutManager(getActivity()));//Linear Items
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//Linear Items
 
 
         ArrayList<String> arrayList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            arrayList.add(title+" Items " + i);//Adding items to recycler view
+            /*arrayList.add(title+" Items " + i);//Adding items to recycler view*/
+            String SInfo = SystemInfo.GetSystemInfo();
+            arrayList.add(SInfo);
         }
         RecyclerView_Adapter adapter = new RecyclerView_Adapter(getActivity(), arrayList);
         recyclerView.setAdapter(adapter);// set adapter on recyclerview
