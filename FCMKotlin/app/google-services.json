@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "333333033333",
+    "firebase_url": "https://test-app.firebaseio.com",
+    "project_id": "test-app",
+    "storage_bucket": "test-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333333033333:android:79e4bc13f8f3d27f",
+        "android_client_info": {
+          "package_name": "fi.lasicaine.fcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "333333033333-sdf7uh333ojlttjbnrids33ghqq4c3e3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMw8k8KTnPhCox60xIybBHZ6twUG_iObA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "333333033333-sdf7uh333ojlttjbnrids33ghqq4c3e3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
