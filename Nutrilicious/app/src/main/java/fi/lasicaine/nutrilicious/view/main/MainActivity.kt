@@ -11,9 +11,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 
 import fi.lasicaine.nutrilicious.model.Food
+import fi.lasicaine.nutrilicious.view.common.UI
+import fi.lasicaine.nutrilicious.view.common.getViewModel
+import fi.lasicaine.nutrilicious.viewmodel.SearchViewModel
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var searchViewModel: SearchViewModel
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -34,9 +39,10 @@ class MainActivity : AppCompatActivity() {
 
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
+        searchViewModel = getViewModel(SearchViewModel::class)
+
         networkScope.launch {
-            val dtos = usdaApi.getFoods("raw").execute()?.body()?.list?.item!!
-            val foods: List<Food> = dtos.map(::Food)
+            val foods = searchViewModel.getFoodsFor("raw")
 
             withContext(UI) {
                 (rvFoods.adapter as SearchListAdapter).setItems(foods)
