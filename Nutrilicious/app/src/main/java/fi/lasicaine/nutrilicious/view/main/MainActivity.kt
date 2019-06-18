@@ -1,24 +1,23 @@
 package fi.lasicaine.nutrilicious.view.main
 
+import android.app.SearchManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.widget.SearchView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.*
 import fi.lasicaine.nutrilicious.R
-import fi.lasicaine.nutrilicious.data.network.networkScope
-import fi.lasicaine.nutrilicious.data.network.usdaApi
+import fi.lasicaine.nutrilicious.view.common.addFragmentToState
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.launch
+import fi.lasicaine.nutrilicious.view.common.replaceFragment
 
-import fi.lasicaine.nutrilicious.model.Food
-import fi.lasicaine.nutrilicious.view.common.UI
-import fi.lasicaine.nutrilicious.view.common.getViewModel
-import fi.lasicaine.nutrilicious.viewmodel.SearchViewModel
-import kotlinx.coroutines.withContext
+private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT"
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var searchViewModel: SearchViewModel
+    private lateinit var searchFragment: SearchFragment
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -35,26 +34,41 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setUpSearchRecyclerView()
+
+        recoverOrBuildSearchFragment()
+        replaceFragment(R.id.mainView, searchFragment)
 
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+    }
 
-        searchViewModel = getViewModel(SearchViewModel::class)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
 
-        networkScope.launch {
-            val foods = searchViewModel.getFoodsFor("raw")
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu.findItem(R.id.search).actionView as SearchView).apply {
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        }
 
-            withContext(UI) {
-                (rvFoods.adapter as SearchListAdapter).setItems(foods)
-            }
+        return true
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.action == Intent.ACTION_SEARCH) {
+            val query = intent.getStringExtra(SearchManager.QUERY) ?: return
+            searchFragment.updateListFor(query)
         }
     }
 
-    private fun setUpSearchRecyclerView() = with(rvFoods) {
-        adapter = SearchListAdapter(emptyList())
-        layoutManager = LinearLayoutManager(this@MainActivity)
-        addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
-        setHasFixedSize(true)
+    private fun recoverOrBuildSearchFragment() {
+        val fragment = supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG) as? SearchFragment
+        if (fragment == null) { setUpSearchFragment() }
+        else { searchFragment = fragment }
+    }
+
+    private fun setUpSearchFragment() {
+        searchFragment = SearchFragment()
+        addFragmentToState(R.id.mainView, searchFragment, SEARCH_FRAGMENT_TAG)
     }
 
 }

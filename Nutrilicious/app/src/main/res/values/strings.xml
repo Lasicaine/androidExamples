@@ -4,4 +4,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_my_foods">My Foods</string>
     <string name="content_description_star">Favorite</string>
+    <string name="search_title">Search food...</string>
 </resources>
