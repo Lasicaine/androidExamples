@@ -5,9 +5,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.*
 import fi.lasicaine.nutrilicious.R
+import fi.lasicaine.nutrilicious.data.network.networkScope
+import fi.lasicaine.nutrilicious.data.network.usdaApi
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.launch
 
 import fi.lasicaine.nutrilicious.model.Food
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,21 +33,22 @@ class MainActivity : AppCompatActivity() {
         setUpSearchRecyclerView()
 
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        networkScope.launch {
+            val dtos = usdaApi.getFoods("raw").execute()?.body()?.list?.item!!
+            val foods: List<Food> = dtos.map(::Food)
+
+            withContext(UI) {
+                (rvFoods.adapter as SearchListAdapter).setItems(foods)
+            }
+        }
     }
 
     private fun setUpSearchRecyclerView() = with(rvFoods) {
-        adapter = SearchListAdapter(sampleData())
+        adapter = SearchListAdapter(emptyList())
         layoutManager = LinearLayoutManager(this@MainActivity)
-        addItemDecoration(DividerItemDecoration(
-            this@MainActivity, LinearLayoutManager.VERTICAL
-        ))
+        addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
         setHasFixedSize(true)
     }
 
-    private fun sampleData() = listOf(
-        Food("Gingerbread", "Candy and Sweets", false),
-        Food("Nougat", "Candy and Sweets", true),
-        Food("Apple", "Fruits and Vegetables", false),
-        Food("Banana", "Fruits and Vegetables", true)
-    )
 }
