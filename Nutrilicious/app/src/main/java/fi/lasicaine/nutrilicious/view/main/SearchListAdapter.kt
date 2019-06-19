@@ -7,7 +7,10 @@ import android.view.*
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.rv_item.*
 
-class SearchListAdapter(private var items: List<Food>) : RecyclerView.Adapter<SearchListAdapter.ViewHolder>() {
+class SearchListAdapter(
+    private var items: List<Food>,
+    private var onStarClick: (Food, Int) -> Unit
+) : RecyclerView.Adapter<SearchListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -38,6 +41,7 @@ class SearchListAdapter(private var items: List<Food>) : RecyclerView.Adapter<Se
                 android.R.drawable.btn_star_big_off
             }
             ivStar.setImageResource(image)
+            ivStar.setOnClickListener { onStarClick(food, this.layoutPosition) }
         }
     }
 }

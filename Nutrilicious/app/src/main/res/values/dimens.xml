@@ -3,4 +3,5 @@
     <dimen name="medium_padding">8dp</dimen>
     <dimen name="medium_font_size">16sp</dimen>
     <dimen name="small_font_size">13sp</dimen>
+    <dimen name="huge_font_size">22sp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package fi.lasicaine.nutrilicious.view.common
 
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -23,4 +24,8 @@ fun AppCompatActivity.replaceFragment(viewGroupId: Int, fragment: Fragment) {
 
 fun AppCompatActivity.addFragmentToState(@IdRes containerViewId: Int, fragment: Fragment, tag: String) {
     supportFragmentManager.beginTransaction().add(containerViewId, fragment, tag).commit()
+}
+
+fun AppCompatActivity.toast(msg: String) {
+    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
