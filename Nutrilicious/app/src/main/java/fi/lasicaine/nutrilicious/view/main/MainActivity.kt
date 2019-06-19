@@ -18,6 +18,8 @@ import fi.lasicaine.nutrilicious.view.common.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import fi.lasicaine.nutrilicious.view.common.replaceFragment
 import fi.lasicaine.nutrilicious.view.common.toast
+import fi.lasicaine.nutrilicious.view.details.DetailsActivity
+import fi.lasicaine.nutrilicious.view.details.FOOD_ID_EXTRA
 import fi.lasicaine.nutrilicious.viewmodel.FavoritesViewModel
 
 private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT"
@@ -57,10 +59,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpSearchListAdapter(rv: RecyclerView, items: List<Food>) = SearchListAdapter(
         items,
+        onItemClick = { startDetailsActivity(it) },
         onStarClick = { food, layoutPosition ->
             toggleFavorite(food)
             rv.adapter?.notifyItemChanged(layoutPosition)
         })
+
+    private fun startDetailsActivity(food: Food) {
+        val intent = Intent(this, DetailsActivity::class.java).apply {
+            putExtra(FOOD_ID_EXTRA, food.id)
+        }
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

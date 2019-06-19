@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import fi.lasicaine.nutrilicious.R
 import fi.lasicaine.nutrilicious.view.common.UI
-import fi.lasicaine.nutrilicious.view.common.bgScope
 import fi.lasicaine.nutrilicious.view.common.getViewModel
 import fi.lasicaine.nutrilicious.view.common.uiScope
 import fi.lasicaine.nutrilicious.viewmodel.FavoritesViewModel

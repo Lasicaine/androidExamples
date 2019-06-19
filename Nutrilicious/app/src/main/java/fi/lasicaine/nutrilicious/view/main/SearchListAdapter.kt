@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.rv_item.*
 
 class SearchListAdapter(
     private var items: List<Food>,
+    private val onItemClick: (Food) -> Unit,
     private var onStarClick: (Food, Int) -> Unit
 ) : RecyclerView.Adapter<SearchListAdapter.ViewHolder>() {
 
@@ -42,6 +43,7 @@ class SearchListAdapter(
             }
             ivStar.setImageResource(image)
             ivStar.setOnClickListener { onStarClick(food, this.layoutPosition) }
+            containerView.setOnClickListener { onItemClick(food) }
         }
     }
 }
