@@ -1,23 +1,11 @@
 package fi.lasicaine.nutrilicious.viewmodel
 
-import androidx.lifecycle.ViewModel
-import fi.lasicaine.nutrilicious.data.network.NETWORK
-import fi.lasicaine.nutrilicious.data.network.dto.DetailsDto
-import fi.lasicaine.nutrilicious.data.network.dto.DetailsWrapper
-import fi.lasicaine.nutrilicious.data.network.usdaApi
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import fi.lasicaine.nutrilicious.data.DetailsRepository
 import fi.lasicaine.nutrilicious.model.FoodDetails
-import kotlinx.coroutines.withContext
-import retrofit2.Call
 
-class DetailsViewModel : ViewModel() {
-
-    suspend fun getDetails(foodId: String): FoodDetails? {
-        val request: Call<DetailsWrapper<DetailsDto>> = usdaApi.getDetails(foodId)
-
-        val detailsDto: DetailsDto = withContext(NETWORK) {
-            request.execute().body()?.foods?.get(0)?.food
-        } ?: return null
-
-        return FoodDetails(detailsDto)
-    }
+class DetailsViewModel(app: Application) : AndroidViewModel(app) {
+    private val repo = DetailsRepository(app)
+    suspend fun getDetails(foodId: String): FoodDetails? = repo.getDetails(foodId)
 }

@@ -1,9 +1,16 @@
 package fi.lasicaine.nutrilicious.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import fi.lasicaine.nutrilicious.data.db.NutrientListConverter
 import fi.lasicaine.nutrilicious.data.network.dto.DetailsDto
 import fi.lasicaine.nutrilicious.data.network.dto.NutrientDto
 
-data class FoodDetails(val id: String, val name: String, val nutrients: List<Nutrient>) {
+
+@Entity(tableName = "details")
+@TypeConverters(NutrientListConverter::class)
+data class FoodDetails(@PrimaryKey val id: String, val name: String, val nutrients: List<Nutrient>) {
     constructor(dto: DetailsDto) : this(
         dto.desc.ndbno,
         dto.desc.name,
