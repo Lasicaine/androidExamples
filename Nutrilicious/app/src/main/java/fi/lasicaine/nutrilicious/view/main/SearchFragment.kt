@@ -12,6 +12,7 @@ import fi.lasicaine.nutrilicious.view.common.UI
 import fi.lasicaine.nutrilicious.view.common.bgScope
 import fi.lasicaine.nutrilicious.viewmodel.SearchViewModel
 import fi.lasicaine.nutrilicious.view.common.getViewModel
+import fi.lasicaine.nutrilicious.view.common.snackbar
 import fi.lasicaine.nutrilicious.viewmodel.FavoritesViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.launch
@@ -68,6 +69,10 @@ class SearchFragment : Fragment() {
             withContext(UI) {
                 (rvFoods?.adapter as? SearchListAdapter)?.setItems(foods)
                 swipeRefresh?.isRefreshing = false
+
+                if (foods.isEmpty() && isAdded) {
+                    snackbar("No foods found")
+                }
             }
         }
     }

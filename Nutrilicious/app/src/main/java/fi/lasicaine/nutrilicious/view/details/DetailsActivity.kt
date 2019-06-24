@@ -2,6 +2,7 @@ package fi.lasicaine.nutrilicious.view.details
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import fi.lasicaine.nutrilicious.R
 import fi.lasicaine.nutrilicious.model.FoodDetails
 import fi.lasicaine.nutrilicious.model.Nutrient
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 const val FOOD_ID_EXTRA = "NDBNO"
 
 class DetailsActivity : AppCompatActivity() {
@@ -26,18 +28,23 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_details)
 
         detailsViewModel = getViewModel(DetailsViewModel::class)
-        val foodId = intent.getStringExtra(FOOD_ID_EXTRA) ?: return
+        val foodId = intent.getStringExtra(FOOD_ID_EXTRA)
         updateUiWith(foodId)
     }
 
     private fun updateUiWith(foodId: String) {
         if (foodId.isBlank()) return
 
+        setLoading(true)
         bgScope.launch {
             val details = detailsViewModel.getDetails(foodId)
-            withContext(UI) { bindUi(details) }
+            withContext(UI) {
+                setLoading(false)
+                bindUi(details)
+            }
         }
     }
+
 
     private fun bindUi(details: FoodDetails?) {
         if (details != null) {
@@ -71,5 +78,15 @@ class DetailsActivity : AppCompatActivity() {
         val rdi: Double = RDI[nutrient.id]?.normalized() ?: return -1.0
 
         return nutrientAmount / rdi * 100
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        if (isLoading) {
+            //content.visibility = View.GONE
+            progress.visibility = View.VISIBLE
+        } else {
+            progress.visibility = View.GONE
+            //content.visibility = View.VISIBLE
+        }
     }
 }
