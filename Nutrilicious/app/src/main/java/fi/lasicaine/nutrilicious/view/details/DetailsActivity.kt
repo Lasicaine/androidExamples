@@ -6,6 +6,7 @@ import fi.lasicaine.nutrilicious.R
 import fi.lasicaine.nutrilicious.model.FoodDetails
 import fi.lasicaine.nutrilicious.model.Nutrient
 import fi.lasicaine.nutrilicious.model.NutrientType
+import fi.lasicaine.nutrilicious.model.RDI
 import fi.lasicaine.nutrilicious.view.common.UI
 import fi.lasicaine.nutrilicious.view.common.bgScope
 import fi.lasicaine.nutrilicious.view.common.getViewModel
@@ -55,7 +56,20 @@ class DetailsActivity : AppCompatActivity() {
             .joinToString(separator = "\n", transform = ::renderNutrient)
 
     private fun renderNutrient(nutrient: Nutrient): String = with(nutrient) {
-        val displayName = name.substringBefore(",")  // = whole name if no comma
-        "$displayName: $amountPer100g$unit"
+        val name = name.substringBefore(",")  // = whole name if no comma
+        val amount = amountPer100g.value.render()
+        val unit = amountPer100g.unit
+        val percent = getPercentOfRdi(nutrient).render()
+        val rdiNote = if (percent.isNotEmpty()) "($percent% of RDI)" else ""
+        "$name: $amount$unit $rdiNote"
+    }
+
+    private fun Double.render() = if (this >= 0.0) "%.2f".format(this) else ""
+
+    private fun getPercentOfRdi(nutrient: Nutrient): Double {
+        val nutrientAmount: Double = nutrient.amountPer100g.normalized()
+        val rdi: Double = RDI[nutrient.id]?.normalized() ?: return -1.0
+
+        return nutrientAmount / rdi * 100
     }
 }
