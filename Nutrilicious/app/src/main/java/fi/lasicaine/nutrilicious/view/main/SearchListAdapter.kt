@@ -37,9 +37,9 @@ class SearchListAdapter(
             tvFoodType.text = food.type
 
             val image = if (food.isFavorite) {
-                android.R.drawable.btn_star_big_on
+                R.drawable.favorite
             } else {
-                android.R.drawable.btn_star_big_off
+                R.drawable.add_to_favorite
             }
             ivStar.setImageResource(image)
             ivStar.setOnClickListener { onStarClick(food, this.layoutPosition) }
