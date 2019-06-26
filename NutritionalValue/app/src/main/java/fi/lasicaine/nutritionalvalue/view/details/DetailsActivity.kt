@@ -28,7 +28,7 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_details)
 
         detailsViewModel = getViewModel(DetailsViewModel::class)
-        val foodId = intent.getStringExtra(FOOD_ID_EXTRA)
+        val foodId = intent.getStringExtra(FOOD_ID_EXTRA) ?: return
         updateUiWith(foodId)
     }
 
