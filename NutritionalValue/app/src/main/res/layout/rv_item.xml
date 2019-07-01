@@ -27,8 +27,8 @@
             tools:text="Sweets and Candy"/>
     <ImageView
             android:id="@+id/ivStar"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:contentDescription="@string/content_description_star"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

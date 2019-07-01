@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity() {
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId) {
-            R.id.navigation_home -> {
-                replaceFragment(R.id.mainView, searchFragment)
-                return@OnNavigationItemSelectedListener true
-            }
             R.id.navigation_my_foods -> {
                 replaceFragment(R.id.mainView, FavoritesFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_search_result -> {
+                replaceFragment(R.id.mainView, searchFragment)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recoverOrBuildSearchFragment()
-        replaceFragment(R.id.mainView, searchFragment)
+        replaceFragment(R.id.mainView, FavoritesFragment())
 
         favoritesViewModel = getViewModel(FavoritesViewModel::class)
 

@@ -16,7 +16,7 @@ import retrofit2.Call
 class DetailsRepository(ctx: Context) {
     private val detailsDao by lazy { AppDatabase.getInstance(ctx).detailsDao() }
 
-    fun add(details: FoodDetails) = dbScope.launch { detailsDao.insert(details) }
+    private fun add(details: FoodDetails) = dbScope.launch { detailsDao.insert(details) }
 
     suspend fun getDetails(id: String): FoodDetails? {
         return withContext(DB) { detailsDao.loadById(id) }
