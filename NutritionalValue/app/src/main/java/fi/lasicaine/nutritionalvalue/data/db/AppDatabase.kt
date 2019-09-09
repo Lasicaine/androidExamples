@@ -11,13 +11,18 @@ import kotlinx.coroutines.CoroutineScope
 
 val dbScope = CoroutineScope(DB)
 
-@Database(entities = [Food::class, FoodDetails::class], version =1)
-abstract class AppDatabase: RoomDatabase() {
+@Database(
+    entities = [Food::class, FoodDetails::class], version = 1,
+    exportSchema = false
+)
+abstract class AppDatabase : RoomDatabase() {
     companion object {
         private var INSTANCE: AppDatabase? = null
 
         fun getInstance(ctx: Context): AppDatabase {
-            if (INSTANCE == null) { INSTANCE = buildDatabase(ctx) }
+            if (INSTANCE == null) {
+                INSTANCE = buildDatabase(ctx)
+            }
             return INSTANCE!!
         }
 
