@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity() {
                 make(coordinator_l, errorNotificationSchedule, LENGTH_LONG).show()
             }
         }
+
+        time_p.setIs24HourView(true)
     }
 
     private fun scheduleNotification(delay: Long, data: Data) {
