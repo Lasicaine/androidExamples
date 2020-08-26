@@ -20,7 +20,7 @@ class ScrollingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scrolling)
         setSupportActionBar(toolbar)
-        sheetBehavior = BottomSheetBehavior.from<LinearLayout>(bottom_sheet)
+        sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         fab.setOnClickListener {
             expandCloseSheet()
         }
@@ -29,7 +29,7 @@ class ScrollingActivity : AppCompatActivity() {
          * bottom sheet state change listener
          * we are changing button text when sheet changed state
          * */
-        sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        sheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
